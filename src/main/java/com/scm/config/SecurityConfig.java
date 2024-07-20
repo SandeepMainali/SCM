@@ -28,7 +28,6 @@ import java.io.UnsupportedEncodingException;
     private SecurityCustomUserDetailService userDetailService;
 
 
-
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -46,16 +45,7 @@ import java.io.UnsupportedEncodingException;
                             .requestMatchers("/user/**").authenticated();
                     authorize.anyRequest().permitAll();
                 });
-//                .formLogin(form -> form
-//                        .loginPage("/login")
-//                        .permitAll()
-//                )
-//                .logout(logout -> logout
-//                        .permitAll()
-//                )
-//                .csrf(csrf -> csrf
-//                        .ignoringRequestMatchers("/api/**") // example of ignoring CSRF for API endpoints
-//                );
+
         httpSecurity.formLogin(formLogin->{
             formLogin.loginPage("/login");
             formLogin.loginProcessingUrl("/authenticate");
@@ -63,13 +53,6 @@ import java.io.UnsupportedEncodingException;
 //            formLogin.failureForwardUrl("/login?error=true");
             formLogin.usernameParameter("email");
             formLogin.passwordParameter("password");
-//            formLogin.failureHandler(new AuthFailtureHandler(){
-//
-//                @Override
-//                public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-//                    throw new UnsupportedEncodingException("Unimplemented mehtod")
-//                }
-//            });
 
         });
 
