@@ -27,9 +27,9 @@ public class PageController {
         return "about";
     }
 
-    @RequestMapping("/login")
-    public String loginPage(){
-        return "login";
+    @GetMapping("/login")
+    public String login() {
+        return new String("login");
     }
 
     @GetMapping("/register")
@@ -55,7 +55,7 @@ public class PageController {
 
     @RequestMapping("/")
     public String homePage() {
-        return "home";
+        return "redirect:/home";
     }
 
     @RequestMapping("/home")
@@ -68,12 +68,15 @@ public class PageController {
         return "contact";
     }
 
-    @RequestMapping(value = "signup",method = RequestMethod.POST)
-    public String Register(@Valid @ModelAttribute("userForm") UserForm userForm, HttpSession session, BindingResult bindingResult){
+    @RequestMapping(value = "/do-register", method = RequestMethod.POST)
+    public String processRegister(@Valid @ModelAttribute UserForm userForm, BindingResult rBindingResult,
+                                  HttpSession session) {
+        System.out.println("Processing registration");
+
+        System.out.println(userForm);
 
 
-        if (bindingResult.hasErrors()) {
-
+        if (rBindingResult.hasErrors()) {
             return "register";
         }
 
@@ -83,11 +86,21 @@ public class PageController {
         user.setPassword(userForm.getPassword());
         user.setAbout(userForm.getAbout());
         user.setPhoneNumber(userForm.getPhoneNumber());
+        user.setEnabled(false);
         user.setProfilePic("https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg");
+
         User savedUser = userService.saveUser(user);
 
+        System.out.println("user saved :");
+
+
+
         Message message = Message.builder().content("Registration Successful").type(MessageType.green).build();
+
         session.setAttribute("message", message);
+
+
         return "redirect:/register";
     }
+
 }

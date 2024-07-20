@@ -1,6 +1,5 @@
 package com.scm.entities;
 
 public enum Providers {
-    SELF,
-    OTHER;
+    SELF, GOOGLE, GITHUB, OTHER
 }
