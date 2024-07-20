@@ -3,6 +3,8 @@
         lang="en"
         th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}"
 >
+
+
 <head>
     <title>Signup</title>
 </head>
@@ -31,7 +33,7 @@
 
                 <!-- this is  form -->
                 <form
-                        data-th-action="@{'/do-register'}"
+                        data-th-action="@{'/signup'}"
                         method="post"
                         data-th-object="${userForm}"
                         class="mt-5"
@@ -102,7 +104,28 @@
                                 data-th-errors="*{password}"
                                 class="text-red-600 px-1 py-2"
                         ></p>
+
                     </div>
+
+                    <!-- confirm password field -->
+<!--                    <div class="mb-3">-->
+<!--                        <label-->
+<!--                                for="confirm"-->
+<!--                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"-->
+<!--                        >Confirm Password</label>-->
+<!--                        <input-->
+<!--                                data-th-field="*{password}"-->
+<!--                                type="password"-->
+<!--                                id="confirm"-->
+<!--                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"-->
+<!--                                required-->
+<!--                        />-->
+<!--                    </div>-->
+<!--                    <p-->
+<!--                            data-th-if="${#fields.hasErrors('confirmPassword')}"-->
+<!--                            data-th-errors="*{confirmPassword}"-->
+<!--                            class="text-red-600 px-1 py-2"-->
+<!--                    ></p>-->
                     <!-- Phone field -->
                     <div class="mb-3">
                         <label
