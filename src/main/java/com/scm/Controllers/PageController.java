@@ -86,7 +86,7 @@ public class PageController {
         user.setPassword(userForm.getPassword());
         user.setAbout(userForm.getAbout());
         user.setPhoneNumber(userForm.getPhoneNumber());
-        user.setEnabled(false);
+        user.setEnabled(true);
         user.setProfilePic("https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg");
 
         User savedUser = userService.saveUser(user);

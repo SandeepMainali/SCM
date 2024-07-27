@@ -22,10 +22,14 @@ import java.io.UnsupportedEncodingException;
 
 @Configuration
 @EnableWebSecurity
- class CsrfSecurityConfig {
+ class  CsrfSecurityConfig {
 
     @Autowired
     private SecurityCustomUserDetailService userDetailService;
+    @Autowired
+    OAuthAuthenicationSuccessHandler handler;
+    @Autowired
+    AuthFailtureHandler authFailtureHandler;
 
 
     @Bean
@@ -49,24 +53,30 @@ import java.io.UnsupportedEncodingException;
         httpSecurity.formLogin(formLogin->{
             formLogin.loginPage("/login");
             formLogin.loginProcessingUrl("/authenticate");
-            formLogin.successForwardUrl("/");
+            formLogin.successForwardUrl("/user/profile");
 //            formLogin.failureForwardUrl("/login?error=true");
             formLogin.usernameParameter("email");
             formLogin.passwordParameter("password");
 
+            formLogin.failureHandler(authFailtureHandler);
+
+        });
+
+        httpSecurity.csrf(AbstractHttpConfigurer::disable);
+        // oauth configurations
+
+        httpSecurity.oauth2Login(oauth -> {
+            oauth.loginPage("/login");
+            oauth.successHandler(handler);
         });
 
         httpSecurity.logout(logoutForm -> {
             logoutForm.logoutUrl("/do-logout");
             logoutForm.logoutSuccessUrl("/login?logout=true");
         });
-        httpSecurity.csrf(AbstractHttpConfigurer::disable);
-        httpSecurity.oauth2Login(oauth->{
-            oauth.loginPage("/login");
-//            oauth.successHandler(handler);
-        });
 
         return httpSecurity.build();
+
     }
 
     @Bean
