@@ -32,4 +32,6 @@ public class Contact {
 
     @OneToMany(mappedBy = "contact",cascade = CascadeType.ALL,fetch = FetchType.EAGER )
     private List<SocialLink> links = new ArrayList<>();
+
+    private String cloudinaryImagePublicId;
 }
