@@ -22,14 +22,16 @@
       <p class="text-center">List of all contacts...</p>
 
       <div class="contacts_container p-5">
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div
+                class="flex md:flex-row flex-col items-center px-4 justify-between bg-white dark:bg-gray-900"
+        >
           <form
                   data-th-object="${contactSearchForm}"
                   action=""
                   data-th-action="@{'/user/contacts/search'}"
           >
             <div
-                    class="flex space-x-3 p-5 items-center justify-start flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900"
+                    class="flex space-x-3 p-5 items-center justify-start flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4"
             >
               <!-- select box   -->
 
@@ -82,7 +84,22 @@
               </button>
             </div>
           </form>
+
+          <div>
+            <button
+                    type="button"
+                    onclick="exportData()"
+                    class="px-3 py-2 bg-green-800 text-white rounded"
+            >
+              Export
+            </button>
+          </div>
+        </div>
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <div data-th-replace="~{message :: messagebox}"></div>
+
           <table
+                  id="contact-table"
                   data-th-if="${pageContact.totalElements>0}"
                   class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
           >
@@ -142,6 +159,7 @@
                   <a data-th-href="@{*{websiteLink}}" target="_blank"
                   ><i class="fa-solid w-6 h-6 fa-link"></i
                   ></a>
+
                   <a data-th-href="@{*{linkedInLink}}" target="_blank">
                     <i class="fa-brands w-6 h-6 fa-linkedin"></i>
                   </a>
@@ -149,11 +167,23 @@
               </td>
               <td class="px-6 py-4">
                 <div>
-                  <a href="">
+                  <!-- <a data-th-href="@{'/user/contacts/delete/'+*{id}}">
                     <i class="fa-solid w-6 h-6 fa-trash"></i>
-                  </a>
-                  <a href=""> <i class="fa-solid w-6 h-6 fa-pen"></i></a>
-                  <a href=""> <i class="fa-solid fa-eye"></i></a>
+                  </a> -->
+
+                  <!-- delete contact -->
+                  <button th:onclick="deleteContact([[${c.id}]])">
+                    <i class="fa-solid w-6 h-6 fa-trash"></i>
+                  </button>
+                  <!-- update contact -->
+                  <a data-th-href="@{'/user/contacts/view/'+*{id}}">
+                    <i class="fa-solid w-6 h-6 fa-pen"></i
+                    ></a>
+
+                  <!-- viewcontact -->
+                  <button th:onclick="loadContactdata([[${c.id}]])">
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
                 </div>
               </td>
             </tr>
@@ -208,11 +238,21 @@
         </div>
       </div>
     </div>
+    <div data-th-replace="~{ user/contact_modals :: contact}"></div>
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@linways/table-to-excel@1.0.4/dist/tableToExcel.min.js"></script>
+<script data-th-src="@{'/js/contacts.js'}"></script>
 <script>
-  console.log("this is profile page");
+  function exportData() {
+    TableToExcel.convert(document.getElementById("contact-table"), {
+      name: "contacts.xlsx",
+      sheet: {
+        name: "Sheet 1",
+      },
+    });
+  }
 </script>
 </body>
 </html>
