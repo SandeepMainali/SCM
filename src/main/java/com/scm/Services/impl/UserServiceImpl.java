@@ -1,8 +1,10 @@
 package com.scm.Services.impl;
 
 import com.scm.Helpers.AppConstants;
+import com.scm.Helpers.Helper;
 import com.scm.Helpers.ResourceNotFoundException;
 import com.scm.Repositories.UserRepo;
+import com.scm.Services.EmailService;
 import com.scm.Services.UserService;
 import com.scm.entities.User;
 import org.slf4j.Logger;
@@ -23,33 +25,25 @@ public class UserServiceImpl implements UserService {
 private PasswordEncoder passwordEncoder;
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    @Autowired
+    private EmailService emailService;
+
 
     @Override
     public User saveUser(User user) {
-        // user id : have to generate
         String userId = UUID.randomUUID().toString();
         user.setUserId(userId);
-        // password encode
-        // user.setPassword(userId);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoleList(List.of(AppConstants.ROLE_USER));
-        return userRepo.save(user);
-
-
-//        // set the user role
-//
-//
-//
-//        logger.info(user.getProvider().toString());
-//        String emailToken = UUID.randomUUID().toString();
-//        user.setEmailToken(emailToken);
-//        User savedUser = userRepo.save(user);
-//        String emailLink = Helper.getLinkForEmailVerificatiton(emailToken);
-//        emailService.sendEmail(savedUser.getEmail(), "Verify Account : Smart  Contact Manager", emailLink);
-//        return savedUser;
+        logger.info(user.getProvider().toString());
+        String emailToken = UUID.randomUUID().toString();
+        user.setEmailToken(emailToken);
+        User savedUser = userRepo.save(user);
+        String emailLink = Helper.getLinkForEmailVerificatiton(emailToken);
+        emailService.sendEmail(savedUser.getEmail(), "Verify Account : Smart  Contact Manager", emailLink);
+        return savedUser;
 
     }
-
     @Override
     public Optional<User> getUserById(String id) {
         return userRepo.findById(id);
