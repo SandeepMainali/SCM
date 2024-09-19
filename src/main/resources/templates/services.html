@@ -1,17 +1,68 @@
- <!DOCTYPE html>
-<html lang="en" th:replace="~{base :: parent(~{::#content},~{::title},~{})}">
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
 <head>
-
-  <title>
-    Services
-  </title>
+  <title>Our Services - Smart Contact Management</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-<section id="content">
-  <h1>Welcome to services page</h1>
-  <h2>Services offered by SCM</h2>
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas dolore assumenda rerum harum mollitia incidunt nesciunt dignissimos esse dicta reprehenderit quam, quisquam aspernatur enim consequatur accusamus, minima alias odit ducimus.<10></10>
-</section>
+<div id="content">
+  <div th:if="${loggedInUser}">
+    <div data-th-replace="~{user/sidebar :: sidebar}"></div>
+  </div>
 
+  <!-- Services Section -->
+  <div class="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-500">
+    <div class="text-center max-w-3xl w-full p-6 bg-white rounded-lg shadow-lg">
+      <h1 class="text-6xl font-bold text-gray-900">Our Services</h1>
+      <p class="mt-6 text-lg text-gray-700">
+        We provide a comprehensive suite of services designed to streamline your contact management process:
+      </p>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Service 1 -->
+        <div class="p-6 bg-blue-100 rounded-lg shadow-sm">
+          <div class="text-blue-600">
+            <i class="fas fa-cloud fa-3x"></i>
+          </div>
+          <h2 class="mt-4 text-xl font-semibold text-gray-800">Cloud Storage</h2>
+          <p class="mt-2 text-gray-600">
+            Safely store all your contacts in the cloud with access from any device, anytime.
+          </p>
+        </div>
+        <!-- Service 2 -->
+        <div class="p-6 bg-purple-100 rounded-lg shadow-sm">
+          <div class="text-purple-600">
+            <i class="fas fa-user-cog fa-3x"></i>
+          </div>
+          <h2 class="mt-4 text-xl font-semibold text-gray-800">Contact Management</h2>
+          <p class="mt-2 text-gray-600">
+            Easily manage, organize, and categorize your contacts for quick access and updates.
+          </p>
+        </div>
+        <!-- Service 3 -->
+        <div class="p-6 bg-green-100 rounded-lg shadow-sm">
+          <div class="text-green-600">
+            <i class="fas fa-lock fa-3x"></i>
+          </div>
+          <h2 class="mt-4 text-xl font-semibold text-gray-800">Secure Handling</h2>
+          <p class="mt-2 text-gray-600">
+            Your data's security is our priority, with top-tier encryption and safety measures.
+          </p>
+        </div>
+        <!-- Service 4 -->
+        <div class="p-6 bg-yellow-100 rounded-lg shadow-sm">
+          <div class="text-yellow-600">
+            <i class="fas fa-headset fa-3x"></i>
+          </div>
+          <h2 class="mt-4 text-xl font-semibold text-gray-800">24/7 Support</h2>
+          <p class="mt-2 text-gray-600">
+            Get assistance whenever you need it with our round-the-clock customer support.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script data-th-src="@{'/js/admin.js'}"></script>
 </body>
 </html>
